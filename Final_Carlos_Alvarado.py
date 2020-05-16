@@ -2,7 +2,7 @@ import requests, validators
 from win10toast import ToastNotifier
 import time
 toaster = ToastNotifier()
-respo = requests.get("http://demo7130536.mockable.io/contacts")
+respo = requests.get("http://demo7130536.mockable.io/final-contacts-100")
 losjason = respo.json()
 dict_file = dict()
 dict_file = losjason
@@ -239,7 +239,50 @@ while(bandera != 0):
                 else:
                     print("Ingrese sólo los número presentes")
         elif (r == "7"):
-            pass
+            s = 1
+            while(s != 0):
+                listakeys = list(dict_file.keys())
+                cont = 0
+                for i in listakeys:
+                    print(f"{i}:\n")
+                    nombreslist = list(dict_file[i].keys())
+                    for x in nombreslist:
+                        cont = cont + 1
+                        print(f"  {cont}. {x}\n")
+                contac = input("Ingrese el número del contacto que desee mandar un correo: ")
+                vali = contac.isdigit()
+                if vali == True:
+                    if int(contac) >= 1 and int(contac) <= cont:
+                        listakeys = list(dict_file.keys())
+                        conts = 0
+                        ban = 0
+                        keyletra = ""
+                        keynombre = ""
+                        for i in listakeys:
+                            nombreslist = list(dict_file[i].keys())
+                            for x in nombreslist:
+                                conts = conts + 1
+                                if int(contac) == conts:
+                                    ban = 1
+                                    keynombre = x
+                                    keyletra = i
+                                    break
+                            if ban == 1:
+                                break
+                        emailcorre = dict_file[keyletra][keynombre]["email"]
+                        print(f"Nombre: {keynombre}:\n")
+                        subject = input("Ingrese el subject del correo: ")
+                        mensajedecorre = input("Ingrese el mensaje de correo: ")
+                        toaster.show_toast(f"Correo enviado a {keynombre}: {emailcorre}", f"Subject: {subject}\nMensaje: {mensajedecorre}", duration=3)
+                        res = input("Deseea mandar correo a otro contacto (s/n)")
+                        if res == "s" or res == "si"or res == "S"or res == "Si"or res == "y"or res == "yes"or res == "Y"or res == "Yes":
+                            s = 1
+                        else:
+                            s = 0
+                    else:
+                        print("Ingrese sólo los número presentes")
+                else:
+                    print("Ingrese sólo los número presentes")
         elif (r == "8"):
             pass
         elif (r == "9"):
