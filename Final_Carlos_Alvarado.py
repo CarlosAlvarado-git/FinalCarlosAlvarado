@@ -3,7 +3,6 @@ import csv
 from win10toast import ToastNotifier
 import time
 import os
-import sys
 toaster = ToastNotifier()
 respo = requests.get("http://demo7130536.mockable.io/final-contacts-100")
 losjason = respo.json()
