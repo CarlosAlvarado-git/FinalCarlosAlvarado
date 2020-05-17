@@ -1,6 +1,9 @@
 import requests, validators
+import csv
 from win10toast import ToastNotifier
 import time
+import os
+import sys
 toaster = ToastNotifier()
 respo = requests.get("http://demo7130536.mockable.io/final-contacts-100")
 losjason = respo.json()
@@ -284,7 +287,34 @@ while(bandera != 0):
                 else:
                     print("Ingrese sólo los número presentes")
         elif (r == "8"):
-            pass
+            #with open("contact_manager.csv", "w") as f:
+                #listakeys = list(dict_file.keys())
+                #listanombre = list()
+                #for i in listakeys:
+                 #   listanombre = list(dict_file[i].keys())
+                #w = csv.DictWriter(f, listakeys)
+                #w.writeheader()
+                #for datos in listakeys:
+                 #   w.writerow(datos)
+            listakeys = list(dict_file.keys())
+            ban = 0
+            lista = ['Nombre de contacto', 'telefono', 'email', 'company', 'extra']
+            nombredic = "contact_manager.csv"
+            path = os.getcwd() + "\\" + nombredic 
+            print(f"Esta sería su dirección: {path}")
+            newdic = dict()
+            with open(path, "w") as f:
+                f = csv.DictWriter(f, lista)
+                f.writeheader()
+                for i in listakeys:
+                    nombreslist = list(dict_file[i].keys())
+                    for x in nombreslist:
+                        newdic = {'Nombre de contacto': x}
+                        for y in dict_file[i][x]:
+                            n2 = {y: dict_file[i][x][y]}
+                            newdic.update(n2)
+                        f.writerow(newdic)
+                        newdic.clear()     
         elif (r == "9"):
             bandera = 0
         else:
